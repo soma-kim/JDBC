@@ -1,6 +1,8 @@
 package com.kh.controller;
 
+import com.kh.model.dao.MemberDao;
 import com.kh.model.vo.Member;
+import com.kh.view.MemberView;
 
 /*
  * * Controller
@@ -22,13 +24,22 @@ public class MemberController {
 							 String email, String phone, String address, String hobby) {
 		
 		// 1. 전달된 데이터들을 VO 객체로 주섬주섬 담기 (== 가공하겠다)
-		Member m = new Member();
+		Member m = new Member(userId, userPwd, userName, gender, age,
+							  email, phone, address, hobby);
 		
-		// 2. VO 객체 Dao 메소드로 넘겨 주기 (== 메소드 호출)
-		
+		// 2. VO 객체 Dao 메소드로 넘겨 주기 (== 메소드 호출)		
 		// 3. 결과 받기
+		int result = new MemberDao().insertMember(m);
+		// => 성공이면 1, 실패면 0
 		
 		// 4. 결과에 따른 응답화면 지정하기(== View단의 메소드 호출)
+		if(result > 0) { // 성공했을 경우
+			new MemberView().displaySuccess("회원가입에 성공했습니다.");
+			
+		} else { // 실패했을 경우
+			new MemberView().displayFail("회원가입에 실패했습니다.");
+			
+		}
 	}
 
 }

@@ -22,8 +22,7 @@ public class Run {
 		
 		// 방법 2. 객체 생성과 동시에 호출
 		new MemberView().mainMenu();
-		
-		
+
 	}
 
 }

@@ -120,8 +120,31 @@ public class MemberView {
 		mc.insertMember(userId, userPwd, userName, gender, age,
 						email, phone, address, hobby);
 				
+	}
+	
+	// ----------------------------------------
+	// 서비스 요청 처리 후 사용자가 볼 응답화면에 대한 메소드들
+	
+	
+	/**
+	 * 서비스 요청 성공 시 보게 될 화면
+	 * @param message: 성공 메시지
+	 */
+	public void displaySuccess(String message) {
 		
+		System.out.println("서비스 요청 성공: " + message);
 		
 	}
+	
+	/**
+	 * 서비스 요청 실패 시 보게 될 화면
+	 * @param message: 실패 메시지
+	 */
+	public void displayFail(String message) {
+	
+		System.out.println("서비스 요청 실패: " + message);
+	
+	}
+
 
 }
