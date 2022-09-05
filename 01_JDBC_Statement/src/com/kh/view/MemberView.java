@@ -112,9 +112,13 @@ public class MemberView {
 		System.out.print("주소: ");
 		String address = sc.nextLine();
 		
-		System.out.print("취미: ");
+		System.out.print("취미(콤마(,) 사용하여 공백 없이 나열): ");
 		String hobby = sc.nextLine();
 		
+		// 회원 추가 요청 => MemberController 클래스의 어떤 메소드를 호출
+		
+		mc.insertMember(userId, userPwd, userName, gender, age,
+						email, phone, address, hobby);
 				
 		
 		
