@@ -1,56 +1,68 @@
--- È¸¿ø°ü¸® ÇÁ·Î±×·¥ ÀÛ¼ºÀ» À§ÇÑ È¸¿ø Å×ÀÌºí ±¸¼º
+-- íšŒì›ê´€ë¦¬ í”„ë¡œê·¸ëž¨ ìž‘ì„±ì„ ìœ„í•œ íšŒì› í…Œì´ë¸” êµ¬ì„±
 DROP TABLE MEMBER;
-
+ 
 CREATE TABLE MEMBER (
-    USERNO NUMBER PRIMARY KEY, -- È¸¿ø¹øÈ£
-    USERID VARCHAR2(15) NOT NULL UNIQUE, -- È¸¿ø¾ÆÀÌµð
-    USERPWD VARCHAR2(20) NOT NULL, -- È¸¿øºñ¹Ð¹øÈ£
-    USERNAME VARCHAR2(20) NOT NULL, -- È¸¿ø¸í
-    GENDER CHAR(1) CHECK(GENDER IN ('M', 'F')), -- ¼ºº°
-    AGE NUMBER, -- ³ªÀÌ
-    EMAIL VARCHAR2(30), -- ÀÌ¸ÞÀÏ
-    PHONE CHAR(11), -- ÈÞ´ëÆù
-    ADDRESS VARCHAR(100), -- ÁýÁÖ¼Ò
-    HOBBY VARCHAR(50), -- È¸¿øÀÇ Ãë¹Ì
-    ENROLLDATE DATE DEFAULT SYSDATE NOT NULL -- È¸¿ø°¡ÀÔÀÏ 
+    USERNO NUMBER PRIMARY KEY, -- íšŒì›ë²ˆí˜¸
+    USERID VARCHAR2(15) NOT NULL UNIQUE, -- íšŒì›ì•„ì´ë””
+    USERPWD VARCHAR2(20) NOT NULL, -- íšŒì›ë¹„ë°€ë²ˆí˜¸
+    USERNAME VARCHAR2(20) NOT NULL, -- íšŒì›ëª…
+    GENDER CHAR(1) CHECK(GENDER IN ('M', 'F')), -- ì„±ë³„
+    AGE NUMBER, -- ë‚˜ì´
+    EMAIL VARCHAR2(30), -- ì´ë©”ì¼
+    PHONE CHAR(11), -- íœ´ëŒ€í°
+    ADDRESS VARCHAR(100), -- ì§‘ì£¼ì†Œ
+    HOBBY VARCHAR(50), -- íšŒì›ì˜ ì·¨ë¯¸
+    ENROLLDATE DATE DEFAULT SYSDATE NOT NULL -- íšŒì›ê°€ìž…ì¼ 
 ); 
 
--- È¸¿ø¹øÈ£ Ã¤¹øÀ» À§ÇÑ ½ÃÄö½º »ý¼º
+-- íšŒì›ë²ˆí˜¸ ì±„ë²ˆì„ ìœ„í•œ ì‹œí€€ìŠ¤ ìƒì„±
 DROP SEQUENCE SEQ_USERNO;
 CREATE SEQUENCE SEQ_USERNO
 NOCACHE;
 
--- Å×½ºÆ®¿ë µ¥ÀÌÅÍ(´õ¹Ìµ¥ÀÌÅÍ) Ãß°¡
--- 2¸íÀÇ È¸¿ø Á¤º¸ Ãß°¡
+-- í…ŒìŠ¤íŠ¸ìš© ë°ì´í„°(ë”ë¯¸ë°ì´í„°) ì¶”ê°€
+-- 2ëª…ì˜ íšŒì› ì •ë³´ ì¶”ê°€
 INSERT INTO MEMBER
 VALUES (SEQ_USERNO.NEXTVAL
             , 'admin'
             , '1234'
-            , '°ü¸®ÀÚ'
+            , 'ê´€ë¦¬ìž'
             , 'F'
             , 45
             , 'admin@naver.com'
             , '01012345678'
-            , '¼­¿ï½Ã ¸¶Æ÷±¸'
-            , '³·ÀáÀÚ±â'
+            , 'ì„œìš¸ì‹œ ë§ˆí¬êµ¬'
+            , 'ë‚®ìž ìžê¸°'
+<<<<<<< HEAD
+            , TO_DATE('2021/01/25','YYYY-MM-DD'));
+=======
             , '2021/01/25');
+>>>>>>> refs/remotes/origin/main
             
 INSERT INTO MEMBER
 VALUES (SEQ_USERNO.NEXTVAL
             , 'user01'
             , 'pass01'
-            , 'È«±æ³à'
+            , 'í™ê¸¸ë…€'
             , 'M'
             , 23
             , NULL
             , '01067891234'
             , NULL
-            , '¿µÈ­º¸±â'
+            , 'ì˜í™”ë³´ê¸°'
+<<<<<<< HEAD
+            , TO_DATE('2021/07/13', 'YYYY-MM-DD'));
+=======
             , '2021/07/13');
+>>>>>>> refs/remotes/origin/main
             
--- Ä¿¹Ô
+-- ì»¤ë°‹
 COMMIT;
 
--- Á¶È¸
+-- ì¡°íšŒ
+<<<<<<< HEAD
+SELECT * FROM MEMBER;
+=======
 SELECT * FROM MEMBER;
             
+>>>>>>> refs/remotes/origin/main

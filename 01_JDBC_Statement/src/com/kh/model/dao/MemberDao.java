@@ -95,6 +95,8 @@ public class MemberDao {
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
 												// 구분자 잘 확인할 것!
 			
+			conn.setAutoCommit(false);
+			
 			// 3) Statement 객체 생성(Connection 객체로부터)
 			stmt = conn.createStatement();
 			// => 적어도 이 단계까지 완료가 되었다면 본격적으로 SQL문을 실행시킬 수 있음
@@ -165,6 +167,8 @@ public class MemberDao {
 			
 			// 3) Statement 객체 생성 (Connection 객체로부터 얻어냄)
 			stmt = conn.createStatement();
+			
+			conn.setAutoCommit(false);
 			
 			// 4, 5) SQL문 (SELECT) 실행해서 결과값 받아내기
 			rset = stmt.executeQuery(sql);
@@ -263,6 +267,8 @@ public class MemberDao {
 			// 2) Connection 객체 생성(url, 계정명, 비밀번호)
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
 			
+			conn.setAutoCommit(false);
+			
 			// 3) Statement 객체 생성
 			stmt = conn.createStatement();
 			
@@ -344,6 +350,8 @@ public class MemberDao {
 			
 			// 2) Connection 객체 생성
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
+			
+			conn.setAutoCommit(false);
 			
 			// 3) Statement 객체 생성
 			stmt = conn.createStatement();
@@ -449,7 +457,9 @@ public class MemberDao {
 			// 2) Connection 객체 생성
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
 			
-			//(주목) conn.setAutoCommit(false);
+			//(주목)
+			conn.setAutoCommit(false);
+			
 			
 			// 3) Statement 객체 생성
 			stmt = conn.createStatement();
@@ -511,6 +521,8 @@ public class MemberDao {
 			
 			// 2) Connection 객체 생성
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
+			
+			conn.setAutoCommit(false);
 			
 			// 3) Statement 객체 생성
 			stmt = conn.createStatement();
