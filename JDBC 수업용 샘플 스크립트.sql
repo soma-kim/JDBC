@@ -34,8 +34,11 @@ VALUES (SEQ_USERNO.NEXTVAL
             , '서울시 마포구'
             , '낮잠자기'
 <<<<<<< HEAD
+<<<<<<< HEAD
             , TO_DATE('2021/01/25','YYYY-MM-DD'));
 =======
+=======
+>>>>>>> 68daad84ae8f9ab2f7b220469013956c083dafd4
             , '2021/01/25');
 >>>>>>> refs/remotes/origin/main
             
@@ -51,8 +54,11 @@ VALUES (SEQ_USERNO.NEXTVAL
             , NULL
             , '영화보기'
 <<<<<<< HEAD
+<<<<<<< HEAD
             , TO_DATE('2021/07/13', 'YYYY-MM-DD'));
 =======
+=======
+>>>>>>> 68daad84ae8f9ab2f7b220469013956c083dafd4
             , '2021/07/13');
 >>>>>>> refs/remotes/origin/main
             
@@ -61,8 +67,11 @@ COMMIT;
 
 -- 조회
 <<<<<<< HEAD
+<<<<<<< HEAD
 SELECT * FROM MEMBER;
 =======
+=======
+>>>>>>> 68daad84ae8f9ab2f7b220469013956c083dafd4
 SELECT * FROM MEMBER;
             
 >>>>>>> refs/remotes/origin/main

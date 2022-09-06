@@ -460,7 +460,6 @@ public class MemberDao {
 			//(주목)
 			conn.setAutoCommit(false);
 			
-			
 			// 3) Statement 객체 생성
 			stmt = conn.createStatement();
 			
