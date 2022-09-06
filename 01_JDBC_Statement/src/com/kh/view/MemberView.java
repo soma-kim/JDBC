@@ -55,10 +55,10 @@ public class MemberView {
 				selectAll(); // 회원 전체 조회용 화면을 담당하는 메소드
 				break;
 			case 3 : 
-				selectByUserId();
+				selectByUserId(); // 회원 아이디 검색용 화면을 담당하는 메소드
 				break;
 			case 4 : 
-				
+				selectByUserName();// 회원 이름 키워드 검색용 화면을 담당하는 메소드
 				break;
 			case 5 : 
 				
@@ -152,6 +152,22 @@ public class MemberView {
 		mc.selectByUserId(userId);
 		
 		
+	}
+	
+	/**
+	 * 사용자에게 검색할 회원의 이름 키워드를 입력받은 후 조회 요청하는 메소드
+	 */
+	public void selectByUserName() {
+		System.out.println("----- 회원 이름으로 검색 -----");
+		
+		// 사용자로부터 검색하고자 하는 회원의 이름을 키워드로 입력받기
+		// (일치하는 것을 찾겠다 X, 키워드가 포함되면 무조건 찾겠다 O)
+		
+		System.out.print("회원 이름 키워드 입력: ");
+		String keyword = sc.nextLine();
+		
+		// 키워드를 MemberController의 어떤 메소드로 넘겨서 요청
+		mc.selectByUserName(keyword);
 	}
 	
 	

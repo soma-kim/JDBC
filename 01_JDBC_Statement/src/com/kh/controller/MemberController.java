@@ -92,5 +92,21 @@ public class MemberController {
 		}
 		
 	}
+	
+	/**
+	 * 사용자의 회원명(키워드)으로 검색 요청 시 처리해 주는 메소드
+	 * @param keyword: 사용자가 입력했던 검색하고자 하는 회원명(키워드)
+	 */
+	public void selectByUserName(String keyword) {
+		
+		// 1. VO 객체로 전달값들을 가공하기
+		// => 어차피 전달받은 값이 한 개이기 때문에 패스
+		
+		// 2. Dao에 요청 시 전달값을 넘기면서 메소드 호출
+		// 3. 결과 받기
+		// Dao 메소드 호출 시 생각해 볼 것 (매개변수: keyword, 리턴받을 타입: (Object/Array/ArrayList) 여러 행 조회될 가능성 있고(Array/ArrayList), 몇 행이 나올지 미리 알 수 없음(ArrayList))
+		ArrayList<Member> list = new MemberDao().selectByUserName(keyword);
+		
+	}
 
 }

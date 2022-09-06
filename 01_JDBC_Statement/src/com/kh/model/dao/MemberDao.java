@@ -318,4 +318,26 @@ public class MemberDao {
 		return m;
 	}
 	
+	/**
+	 * 사용자의 이름 키워드 검색 요청을 실행하기 위해 SELECT문을 수행하는 메소드
+	 * @param keyword: 이름 키워드 검색을 위한 검색어
+	 * @return: 조회된 회원들의 목록
+	 */
+	public ArrayList<Member> selectByUserName(String keyword) {
+	// 다른 곳에서도 호출할 수 있어야 하므로 public
+		
+		// SELECT문 => ResultSet 객체 => 여러 행 (ArrayList<Member>)
+		
+		// 0) 필요한 변수 먼저 세팅
+		ArrayList<Member> list = new ArrayList<>(); // 조회된 결과를 담을 수 있는 텅 빈 리스트
+		Connection conn = null; // 접속된 DB의 정보를 담아 둘 수 있는 변수
+		Statement stmt = null; // SQL문 (SELECT) 실행 및 결과를 받을 수 있는 변수
+		ResultSet rset = null; // SELECT문 실행 후 결과들이 담길 변수
+		
+		// 실행할 SQL문(완성된 형태, 세미콜론 X)
+		
+		
+		return list;
+	}
+
 }	
