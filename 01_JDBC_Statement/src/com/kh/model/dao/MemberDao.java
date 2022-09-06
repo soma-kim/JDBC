@@ -335,9 +335,207 @@ public class MemberDao {
 		ResultSet rset = null; // SELECT문 실행 후 결과들이 담길 변수
 		
 		// 실행할 SQL문(완성된 형태, 세미콜론 X)
+		// SELECT * FROM MEMBER WHERE USERNAME LIKE '%XXX%'
+		String sql = "SELECT * FROM MEMBER WHERE USERNAME LIKE '%" + keyword + "%'";
+
+		try {
+			// 1) JDBC 드라이버 등록
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			// 2) Connection 객체 생성
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
+			
+			// 3) Statement 객체 생성
+			stmt = conn.createStatement();
+			
+			// 4, 5) SQL문 실행 후 결과 받기
+			rset = stmt.executeQuery(sql);
+			
+			// 6_1) 현재 조회 결과가 담긴 ResultSet에서 한 행씩 뽑아서 ArrayList에 담기
+			
+			while (rset.next()) {
+				// 한 행에 담긴 데이터들을 한 Member 타입의 객체에 옮겨 담기 => 그 Member를 list에 담기
+				
+				// 표현법 1)
+				list.add(new Member(rset.getInt("USERNO")
+								  , rset.getString("USERNAME")
+								  , rset.getString("USERPWD")
+								  , rset.getString("USERNAME")
+						  		  , rset.getString("GENDER")
+								  , rset.getInt("AGE")
+								  , rset.getString("EMAIL")
+								  , rset.getString("PHONE")
+								  , rset.getString("ADDRESS")
+								  , rset.getString("HOBBY")
+								  , rset.getDate("ENROLLDATE")));
+				
+				// 이 시점 기준으로 봤을 때
+				// 조회된 회원이 없다면 list.size() == 0 또는 list.isEmpty() == true
+				
+//			표현법 2)			
+//			Member m = new Member();		
+//			m.setUserNo(rset.getInt("USERNO"));
+//			m.setUserId(rset.getString("USERNAME"));
+//			m.setUserPwd(rset.getString("USERPWD"));
+//			m.setUserName(rset.getString("USERNAME"));
+//			m.setGender(rset.getString("GENDER"));
+//			m.setAge(rset.getInt("AGE"));
+//			m.setEmail(rset.getString("EMAIL"));
+//			m.setPhone(rset.getString("PHONE"));
+//			m.setAddress(rset.getString("ADDRESS"));
+//			m.setHobby(rset.getString("HOBBY"));
+//			m.setEnrollDate(rset.getDate("ENROLLDATE"));
+//			
+//			list.add(m);		
+			
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			
+			try {
+				
+				// 7) 객체 반납
+				rset.close();
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
 		
+		// 8) 결과 반환
+		return list; // 조회 결과가 없다면 list.size() == 0 또는 list.isEmpty() == true
+	}
+	
+	/**
+	 * 회원 정보 수정을 위한 UPDATE 구문을 실행하는 메소드
+	 * @param m: 회원정보 수정을 위한 데이터
+	 * @return: 테이블에 UPDATE 되는 행의 개수
+	 */
+	public int updateMember(Member m) {
 		
-		return list;
+		// UPDATE문 => 처리된 행의 개수가 int형으로 반환 => 트랜잭션 처리
+		
+		// 0) 필요한 변수 먼저 세팅
+		int result = 0; // 처리된 행의 개수를 받을 수 있는 변수
+		Connection conn = null; // 접속된 DB의 정보를 담을 수 있는 변수
+		Statement stmt = null; // SQL문(UPDATE) 실행 후 결과를 받을 수 있는 변수
+		
+		// 실행할 SQL문(완성된 형태, 세미콜론 X)
+		/* UPDATE MEMBER
+		 * SET USERPWD = 'XXXX'
+		 * 	 , EMAIL = 'XXXXX'
+		 *   , PHONE = 'XXXXX'
+		 *   , ADDRESS = 'XXXXXX'
+		 *  WHERE USERID = 'XXXX';
+		 */
+		
+		String sql = "UPDATE MEMBER "
+				   + "SET USERPWD = '" + m.getUserPwd() + "'"
+				   + ", EMAIL = '" + m.getEmail() + "'"
+				   + ", PHONE = '" + m.getPhone() + "'"
+				   + ", ADDRESS = '" + m.getAddress() + "' "
+				   + "WHERE USERID = '" + m.getUserId() + "'";
+		
+		try {
+			// 1) JDBC Driver 등록
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			// 2) Connection 객체 생성
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
+			
+			// 3) Statement 객체 생성
+			stmt = conn.createStatement();
+			
+			// 4, 5) SQL문 (UPDATE) 실행 후 결과 받기
+			/* result = */stmt.executeUpdate(sql);
+			
+			// 6_2) 트랜잭션 처리
+			if(result > 0) { // 성공
+				conn.commit();
+			} else { // 실패
+				conn.rollback();
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			
+			// 7) 자원 반납 (생성 순서의 역순)
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//  8) 결과 반환
+		return result;
+	}
+	
+	/**
+	 * 사용자의 회원 탈퇴 요청 시 DELETE 구문을 실행하는 메소드
+	 * @param userId: 삭제하고자 하는 아이디값
+	 * @return: 삭제된 행의 개수를 리턴
+	 */
+	public int deleteMember(String userId) {
+		
+		// 0) 필요한 변수 선언
+		int result = 0; // 처리된 행의 개수를 담을 변수
+		Connection conn = null; // 접속할 DB의 정보를 담는 변수
+		Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
+		
+		// 실행할 SQL문 (세미콜론 X)
+		// DELETE * FROM MEMBER WHERE USERID = 'userId';
+		
+		String sql = "DELETE FROM MEMBER WHERE USERID = '"
+					 + userId + "'";
+		
+		try {
+			// 1) JDBC Driver 등록
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			// 2) Connection 객체 생성
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
+			
+			// 3) Statement 객체 생성
+			stmt = conn.createStatement();
+			
+			// 4, 5) SQL문 (DELETE문) 실행 후 결과 받기
+			result = stmt.executeUpdate(sql);
+			
+			// 6_2) 트랜잭션 처리
+			if(result > 0) { // 성공
+				conn.commit();
+			} else { // 실패
+				conn.rollback(); 
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			
+			try {
+			// 7) 자원 반납
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 8) 결과 반환
+		return result;
+		
 	}
 
 }	

@@ -61,10 +61,10 @@ public class MemberView {
 				selectByUserName();// 회원 이름 키워드 검색용 화면을 담당하는 메소드
 				break;
 			case 5 : 
-				
+				updateMember();
 				break;
 			case 6 : 
-				
+				deleteMember();
 				break;
 			case 0 :
 				System.out.println("프로그램을 종료합니다.");
@@ -170,12 +170,55 @@ public class MemberView {
 		mc.selectByUserName(keyword);
 	}
 	
+	/**
+	 * 사용자에게 변경할 회원의 아이디, 변경할 정보들(비밀번호, 이메일, 전화번호, 주소)을 입력받은 후
+	 * 변경을 요청하는 화면
+	 */
+	public void updateMember() {
+		System.out.println("----- 회원 정보 변경 -----");
+		
+		// 어느 데이터를 어떻게 변경할 건지 언급!!
+		// 어느 회원의 => unique 제약조건이 걸린 회원의 아이디로 구분
+		// 어떻게 변경할 건지 => 비밀번호, 이메일, 전화번호, 주소
+		
+		// 변경할 회원의 아이디
+		System.out.print("변경할 회원의 아이디: ");
+		String userId = sc.nextLine();
+		
+		// 변경할 내용들
+		System.out.print("변경할 비밀번호: ");
+		String newPwd = sc.nextLine();
+		
+		System.out.print("변경할 이메일: ");
+		String newEmail = sc.nextLine();
+		
+		System.out.print("변경할 전화번호 (숫자만): ");
+		String newPhone = sc.nextLine();
+		
+		System.out.print("변경할 주소: ");
+		String newAddress = sc.nextLine();
+		
+		// MemberController의 어떤 메소드를 호출해서 회원 정보 수정 요청
+		mc.updateMember(userId, newPwd, newEmail, newPhone, newAddress);
+	}
 	
-	
+	/**
+	 * 사용자에게 탈퇴할 회원의 아이디 입력받은 후 삭제를 요청하는 메소드
+	 */
+	public void deleteMember() {
+		
+		System.out.println("----- 회원 탈퇴 -----");
+		// 탈퇴시킬 회원의 아이디 입력받기 (unique 제약조건에 의해 회원을 구분할 수 있는 식별자)
+		
+		System.out.print("탈퇴할 회원의 아이디: ");
+		String userId = sc.nextLine();
+		
+		mc.deleteMember(userId);
+		
+	}
 	
 	// ----------------------------------------
 	// 서비스 요청 처리 후 사용자가 볼 응답화면에 대한 메소드들
-	
 	
 	/**
 	 * 서비스 요청 성공 시 보게 될 화면

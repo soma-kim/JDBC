@@ -63,7 +63,7 @@ public class Member {
 		this.gender = gender;
 		this.age = age;
 		this.email = email;
-		this.phone = phone;
+		this.phone = phone;       
 		this.address = address;
 		this.hobby = hobby;
 	}

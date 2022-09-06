@@ -107,6 +107,66 @@ public class MemberController {
 		// Dao 메소드 호출 시 생각해 볼 것 (매개변수: keyword, 리턴받을 타입: (Object/Array/ArrayList) 여러 행 조회될 가능성 있고(Array/ArrayList), 몇 행이 나올지 미리 알 수 없음(ArrayList))
 		ArrayList<Member> list = new MemberDao().selectByUserName(keyword);
 		
+		if(list.isEmpty()) { // 검색 결과가 없는 경우
+			new MemberView().displayNodata(keyword + "에 해당하는 검색결과가 없습니다.");
+		} else { // 검색 결과가 있는 경우
+			new MemberView().displayList(list);
+		}
+		
+	}
+	
+	/**
+	 * 사용자의 회원 정보 변경 요청 시 처리해 주는 메소드
+	 * @param userId: 변경하고자 하는 회원의 아이디 (구분용)
+	 * @param newPwd ~ newAddress: 변경할 회원 정보들(비밀번호, 이메일, 전화번소, 주소)
+	 * @return
+	 */
+	public void updateMember(String userId, String newPwd, String newMail,
+										  String newPhone, String newAddress){
+		
+		// 1. 요청 시 전달값들을 VO 객체로 가공하기
+		Member m = new Member();
+		
+		m.setUserId(userId);
+		m.setUserPwd(newPwd);
+		m.setEmail(newMail);
+		m.setPhone(newPhone);
+		m.setAddress(newAddress);
+		
+		// 2. 전달값을 Dao의 메소드로 넘기기
+		// 3. 결과 받기
+		int result = new MemberDao().updateMember(m);
+		// sql문 update를 쓸 거니까?
+		
+		// 4. 결과에 따른 응답화면을 지정
+		if(result > 0) { // 수정 성공
+			new MemberView().displaySuccess("회원 정보 변경 성공");
+		} else { // 수정 실패
+			new MemberView().displayFail("회원 정보 변경 실패");
+		} 
+
+	}
+	
+	/**
+	 * 사용자가 회원 탈퇴 요청 시 처리해 주는 메소드
+	 * @param userId: 사용자가 입력한 삭제하고자 하는 회원의 아이디 값
+	 */
+	public void deleteMember(String userId) {
+		
+		// 1. 요청 시 전달값들을 VO 객체로 가공하기
+		// --> 전달값이 1개이므로 패스
+		
+		// 2.전달값을 Dao단의 메소드를 호출할 때 넘겨 주기
+		// 3. 결과값 받기
+		// => Dao 메소드를 호출할 때 고려해야 할 것(매개변수: userId, 리턴받을 값: Member)
+		
+		int result = new MemberDao().deleteMember(userId);
+		
+		if(result == 0) { // 조회 결과가 없는 경우
+			new MemberView().displayNodata(userId + " 에 해당하는 검색결과가 없습니다.");
+		} else { // 조회 결과가 있는 경우
+			new MemberView().displaySuccess(userId + "이/가 성공적으로 삭제되었습니다.");
+		}
 	}
 
 }
