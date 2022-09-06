@@ -449,19 +449,25 @@ public class MemberDao {
 			// 2) Connection 객체 생성
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
 			
+			//(주목) conn.setAutoCommit(false);
+			
 			// 3) Statement 객체 생성
 			stmt = conn.createStatement();
 			
 			// 4, 5) SQL문 (UPDATE) 실행 후 결과 받기
 			/* result = */stmt.executeUpdate(sql);
+			//(주목) result = 를 안 쓸 경우 자동 커밋되므로 원래는 setAuroCommit(false)를 해 줘야 함
+			// 근데 mybatis 가면 얘를 자동으로 1줄 메소드로 진행시켜 주기 때문에... 음...
 			
+			System.out.println(result);
 			// 6_2) 트랜잭션 처리
 			if(result > 0) { // 성공
 				conn.commit();
 			} else { // 실패
 				conn.rollback();
 			}
-			
+
+			System.out.println(result);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
