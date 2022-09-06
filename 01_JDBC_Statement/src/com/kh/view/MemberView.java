@@ -1,8 +1,10 @@
 package com.kh.view;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.kh.controller.MemberController;
+import com.kh.model.vo.Member;
 
 /*
  * * View
@@ -50,10 +52,10 @@ public class MemberView {
 				insertMember(); // 회원 추가용 화면을 담당하는 메소드
 				break;
 			case 2 : 
-				
+				selectAll(); // 회원 전체 조회용 화면을 담당하는 메소드
 				break;
 			case 3 : 
-				
+				selectByUserId();
 				break;
 			case 4 : 
 				
@@ -122,6 +124,39 @@ public class MemberView {
 				
 	}
 	
+	/**
+	 * 회원 전체 조회를 할 수 있는 화면
+	 */
+	public void selectAll() {
+		
+		System.out.println("----- 회원 전체 조회 -----");
+		
+		// 회원 전체 조회 요청 => MemberController 클래스의 어느 메소드
+		
+		mc.selectAll();
+
+	}
+	
+	/**
+	 * 사용자에게 검색할 회원의 아이디를 입력받은 후 조회를 요청하는 화면
+	 */
+	public void selectByUserId() {
+		
+		System.out.println("----- 회원 아이디로 검색 -----");
+		
+		// 사용자로부터 검색하고자 하는 회원의 아이디를 입력받아야 함
+		System.out.println("검색할 회원의 아이디: ");
+		String userId = sc.nextLine();
+		
+		// 입력한 아이디를 회원 아이디 검색 요청 시 매개변수로 넘겨 줌
+		mc.selectByUserId(userId);
+		
+		
+	}
+	
+	
+	
+	
 	// ----------------------------------------
 	// 서비스 요청 처리 후 사용자가 볼 응답화면에 대한 메소드들
 	
@@ -131,9 +166,7 @@ public class MemberView {
 	 * @param message: 성공 메시지
 	 */
 	public void displaySuccess(String message) {
-		
 		System.out.println("서비스 요청 성공: " + message);
-		
 	}
 	
 	/**
@@ -141,10 +174,26 @@ public class MemberView {
 	 * @param message: 실패 메시지
 	 */
 	public void displayFail(String message) {
-	
 		System.out.println("서비스 요청 실패: " + message);
-	
 	}
-
+	
+	/**
+	 * 조회 서비스 요청 시 조회 결과가 없을 때 보게 될 화면
+	 * @param message: 결과 없음을 나타내는 메시지
+	 */
+	public void displayNodata(String message) {
+		System.out.println(message);
+	}
+	
+	/**
+	 * 조회 서비스 요청 시 여러 행이 조회된 결과를 받아서 보게 될 화면
+	 * @param list: 여러 행이 조회된 결과물
+	 */
+	public void displayList(ArrayList<Member> list) {
+		System.out.println("조회된 결과는 다음과 같습니다.");
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+	}
 
 }
