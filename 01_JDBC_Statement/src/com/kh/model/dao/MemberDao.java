@@ -245,10 +245,75 @@ public class MemberDao {
 		
 		// SELECT문 => ResultSet 객체 => 한 행 조회 (Member 하나로 결과 받기)
 		
-		
-		
-		Member m = new Member();
+		// 0) 필요한 변수들 먼저 세팅
+		Member m = null; // 조회된 한 회원에 대한 정보를 담는 변수
+		Connection conn = null;
+		Statement stmt = null; // SQL문 실행 후 결과를 받기 위한 변수
+		ResultSet rset = null; // SELECT 문이 실행된 조회 결과들이 처음에 실질적으로 담길 객체
 
+		// 실행할 SQL문 (완성된 형태, 세미콜론 X)
+		// SELECT * FROM MEMBER WHERE USERID = 'XXXX'
+		String sql = "SELECT * FROM MEMBER WHERE USERID = '" + userId + "'";
+		
+		try {
+			// 1) JDBC Driver 등록
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			// 잘못되면 ClassNotFoundException
+			
+			// 2) Connection 객체 생성(url, 계정명, 비밀번호)
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
+			
+			// 3) Statement 객체 생성
+			stmt = conn.createStatement();
+			
+			// 4, 5) SQL문 (SELECT)을 전달해서 실행 후 결과 받기
+			rset = stmt.executeQuery(sql);
+			
+			// 6_1) 현재 조회 결과가 담긴 ResultSet에서 한 행씩 뽑아서 VO 객체에 담기
+			// while(rset.next()) { // 여러 행 조회일 경우 더 이상 뽑아낼 데이터가 없을 때까지 돌리기
+			// -> ResultSet 특징: 커서가 제일 위의 행에서 기다리고 있음!
+			// -> .next(): 바로 밑의 행에 값이 있다면 true, 없으면 false로 행을 뽑아냄
+			
+			if(rset.next()) { // 어차피 unique 제약 조건에 의해 한 행만 조회되므로 if로 돌리는 게 좋음
+				
+				// 적어도 이 중괄호 안에 들어왔다는 것은 조회된 결과가 있다는 것!
+				// => 한 개의 행에 대해서 각 컬럼마다 값을 매번 뽑아서 VO 객체의 필드로 가공
+				
+				// 조회된 한 행에 대한 데이터값들을 뽑아서 하나의 Member 객체에 담기
+				m = new Member(rset.getInt("USERNO")
+							 , rset.getString("USERID")
+							 , rset.getString("USERPWD")
+							 , rset.getString("USERNAME")
+							 , rset.getString("GENDER")
+							 , rset.getInt("AGE")
+							 , rset.getString("EMAIL")
+							 , rset.getString("PHONE")
+							 , rset.getString("ADDRESS")
+							 , rset.getString("HOBBY")
+							 , rset.getDate("ENROLLDATE"));
+				
+			}
+			
+			// 이 시점 기준으로 봤을 때
+			// 만약 조회된 회원이 있다면 m이라는 변수에 Member 타입의 객체가 담겨 있음
+			// 만약 조회된 회원이 없다면 m이라는 변수에 null 값이 담겨 있음
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+			// 7) 다 쓴 JDBC용 객체 반납 (생성된 역순)
+			// ResultSet -> Statement -> Connection
+				rset.close();
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
 		
 		return m;
 	}

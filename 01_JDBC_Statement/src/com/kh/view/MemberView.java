@@ -145,7 +145,7 @@ public class MemberView {
 		System.out.println("----- 회원 아이디로 검색 -----");
 		
 		// 사용자로부터 검색하고자 하는 회원의 아이디를 입력받아야 함
-		System.out.println("검색할 회원의 아이디: ");
+		System.out.print("검색할 회원의 아이디: ");
 		String userId = sc.nextLine();
 		
 		// 입력한 아이디를 회원 아이디 검색 요청 시 매개변수로 넘겨 줌
@@ -194,6 +194,16 @@ public class MemberView {
 		for(int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));
 		}
+	}
+	
+	/**
+	 * 조회 서비스 요청 시 한 행 조회된 결과를 받아서 보게 될 화면
+	 * @param m
+	 */
+	public void displayOne(Member m) {
+		System.out.println("조회된 데이터는 다음과 같습니다.");
+		System.out.println(m);
+		
 	}
 
 }

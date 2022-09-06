@@ -82,6 +82,14 @@ public class MemberController {
 		// => Dao 메소드를 호출할 때 고려해야 할 것 (매개변수: userId, 리턴값의 타입: Member)
 		// => 아이디 컬럼은 UNIQUE 제약조건에 의해 조회 가능하다면 무조건 1개의 값만 나옴(Arraylist가 아닌 Member로 리턴하는 이유)
 		Member m = new MemberDao().selectByUserId(userId);
+		// 만약 조회된 회원이 없다면 null
+		
+		// 4. 결과에 따른 응답 처리
+		if(m == null) { // 조회 결과가 없는 경우
+			new MemberView().displayNodata(userId + " 에 해당하는 검색결과가 없습니다.");
+		} else { // 조회 결과가 있는 경우
+			new MemberView().displayOne(m);
+		}
 		
 	}
 
