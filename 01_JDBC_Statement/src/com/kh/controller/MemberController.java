@@ -164,6 +164,7 @@ public class MemberController {
 		
 		if(result == 0) { // 조회 결과가 없는 경우
 			new MemberView().displayNodata(userId + " 에 해당하는 검색결과가 없습니다.");
+			// new MemberView().displayFail("회원 탈퇴 실패");
 		} else { // 조회 결과가 있는 경우
 			new MemberView().displaySuccess(userId + "이/가 성공적으로 삭제되었습니다.");
 		}
