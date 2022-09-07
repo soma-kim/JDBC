@@ -83,6 +83,7 @@ public class MemberDao {
 		// 0) 필요한 변수들 먼저 세팅 및 초기화 (선언 및 초기화)
 		int result = 0; // 처리된 결과를 받을 수 있는 변수
 		Connection conn = null; // 접속된 DB의 연결 정보를 담을 수 있는 변수
+		// Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
 		PreparedStatement pstmt = null;
 		// 전역변수로 세팅하는 이유: try문에 넣어 버리면 try 닫히면 없어짐! finally에서 반납하고자 할 때 알아먹지 못하니까 
 		
@@ -201,6 +202,7 @@ public class MemberDao {
 		// 0) 필요한 변수들 먼저 세팅 (선언 및 초기화)
 		ArrayList<Member> list = new ArrayList<>(); // 조회된 결과를 뽑아서 담아 줄 ArrayList를 생성 (텅 빈 리스트)
 		Connection conn = null; // 접속된 DB의 연결 정보를 담는 변수
+		// Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
 		PreparedStatement pstmt = null; // SQL문 실행 후 결과를 받기 위한 변수
 		ResultSet rset = null; // SELECT문이 실행될 조회 결과값들이 처음에 실질적으로 담겨 올 객체 
 		
@@ -307,6 +309,7 @@ public class MemberDao {
 		// 0) 필요한 변수들 먼저 세팅
 		Member m = null; // 조회된 한 회원에 대한 정보를 담는 변수
 		Connection conn = null;
+		// Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
 		PreparedStatement pstmt = null; // SQL문 실행 후 결과를 받기 위한 변수
 		ResultSet rset = null; // SELECT 문이 실행된 조회 결과들이 처음에 실질적으로 담길 객체
 
@@ -400,6 +403,7 @@ public class MemberDao {
 		// 0) 필요한 변수 먼저 세팅
 		ArrayList<Member> list = new ArrayList<>(); // 조회된 결과를 담을 수 있는 텅 빈 리스트
 		Connection conn = null; // 접속된 DB의 정보를 담아 둘 수 있는 변수
+		// Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
 		PreparedStatement pstmt = null; // SQL문 (SELECT) 실행 및 결과를 받을 수 있는 변수
 		ResultSet rset = null; // SELECT문 실행 후 결과들이 담길 변수
 		
@@ -515,6 +519,7 @@ public class MemberDao {
 		// 0) 필요한 변수 먼저 세팅
 		int result = 0; // 처리된 행의 개수를 받을 수 있는 변수
 		Connection conn = null; // 접속된 DB의 정보를 담을 수 있는 변수
+		// Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
 		PreparedStatement pstmt = null; // SQL문(UPDATE) 실행 후 결과를 받을 수 있는 변수
 		
 		// 실행할 SQL문(완성된 형태, 세미콜론 X)
@@ -538,8 +543,8 @@ public class MemberDao {
 					+ "SET USERPWD = ?"
 					+ ", EMAIL = ?"
 					+ ", PHONE = ?"
-					+ " ADDRESS = ?"
-					+ "WHERE USERID = ?";
+					+ ", ADDRESS = ?"
+					+ " WHERE USERID = ?";
 		
 		try {
 			// 1) JDBC Driver 등록
@@ -550,9 +555,19 @@ public class MemberDao {
 			
 			//(주목) conn.setAutoCommit(false);
 			
-			// 3) Statement 객체 생성
+			// 3_1) PreparedStatement 객체 생성
 			// stmt = conn.createStatement();
 			pstmt = conn.prepareStatement(sql);
+			
+			// 3_2) 미완성 SQL문을 완성된 형태로
+			// pstmt: pstmt에
+			// .set자료형: 자료형에 해당하는 값을 넣을 건데
+			//             (몇번째구멍, 뭘넣을건지)
+			pstmt.setString(1, m.getUserPwd());
+			pstmt.setString(2, m.getEmail());
+			pstmt.setString(3, m.getPhone());
+			pstmt.setString(4, m.getAddress());
+			pstmt.setString(5, m.getUserId());
 			
 			// 4, 5) SQL문 (UPDATE) 실행 후 결과 받기
 			// result = stmt.executeUpdate(sql);
@@ -561,7 +576,6 @@ public class MemberDao {
 			
 			result = pstmt.executeUpdate();
 			
-			System.out.println(result);
 			// 6_2) 트랜잭션 처리
 			if(result > 0) { // 성공
 				conn.commit();
@@ -569,7 +583,6 @@ public class MemberDao {
 				conn.rollback();
 			}
 
-			System.out.println(result);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -600,13 +613,17 @@ public class MemberDao {
 		// 0) 필요한 변수 선언
 		int result = 0; // 처리된 행의 개수를 담을 변수
 		Connection conn = null; // 접속할 DB의 정보를 담는 변수
-		Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
+		// Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
+		PreparedStatement pstmt = null;
 		
 		// 실행할 SQL문 (세미콜론 X)
-		// DELETE * FROM MEMBER WHERE USERID = 'userId';
+		// DELETE FROM MEMBER WHERE USERID = 'XXX'
+		// String sql = "DELETE FROM MEMBER WHERE USERID = '"
+		//			 + userId + "'";
 		
-		String sql = "DELETE FROM MEMBER WHERE USERID = '"
-					 + userId + "'";
+		// 실행할 SQL문 (세미콜론 X)
+		// DELETE FROM MEMBER WHERE USERID = ?
+		String sql = "DELETE FROM MEMBER WHERE USERID = ?";
 		
 		try {
 			// 1) JDBC Driver 등록
@@ -615,11 +632,16 @@ public class MemberDao {
 			// 2) Connection 객체 생성
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
 			
-			// 3) Statement 객체 생성
-			stmt = conn.createStatement();
+			// 3_1) PreparedStatement 객체 생성
+			// stmt = conn.createStatement();
+			pstmt = conn.prepareStatement(sql);
+			
+			// 3_2) 미완성 SQL문을 완성된 형태로
+			pstmt.setString(1, userId);
 			
 			// 4, 5) SQL문 (DELETE문) 실행 후 결과 받기
-			result = stmt.executeUpdate(sql);
+			// result = stmt.executeUpdate(sql);
+			result = pstmt.executeUpdate();
 			
 			// 6_2) 트랜잭션 처리
 			if(result > 0) { // 성공
@@ -635,8 +657,9 @@ public class MemberDao {
 		} finally {
 			
 			try {
-			// 7) 자원 반납
-				stmt.close();
+				// 7) 자원 반납
+				// stmt.close();
+				pstmt.close();
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
