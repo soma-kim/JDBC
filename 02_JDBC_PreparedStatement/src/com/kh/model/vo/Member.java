@@ -164,9 +164,5 @@ public class Member {
 				+ ", gender=" + gender + ", age=" + age + ", email=" + email + ", phone=" + phone + ", address="
 				+ address + ", hobby=" + hobby + ", enrollDate=" + enrollDate + "]";
 	}
-	
-	
-
-	
 
 }

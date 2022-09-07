@@ -125,6 +125,10 @@ public class MemberDao {
 		
 		try {
 			
+			
+//			Class의 static 메소드인 forName은 클래스의 이름을 매개변수로 받아서 Class 객체를 리턴
+//			그런데 JDBC에서는 Driver 클래스를 JVM에 로드하기 위해서 Class.forName이 사용됨
+			
 			// 1) JDBC Driver 등록
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 	

@@ -15,7 +15,7 @@ import com.kh.view.MemberView;
  */ 
 
 public class MemberController {
-	
+
 	/**
 	 * 사용자의 호원 추가 요청을 처리해 주는 메소드
 	 * @param userId ~ hobby: 회원가입  요청 시 사용자가 입력한 값들
@@ -54,6 +54,7 @@ public class MemberController {
 		// 2. VO 객체를 Dao단의 메소드에 매개변수로 넘기면서 요청 (호출)
 		// 3. 결과 받기
 		// --> Dao 메소드 호출 시 생각해 볼 것 (매개변수 X인 상태이며, return받을 값의 타입 => 회원 전체 조회: 적어도 여러 명의 회원 정보가 조회됨)
+		
 		ArrayList<Member> list = new MemberDao().selectAll();
 		// => list에 조회된 회원들의 정보들이 다 담겨 있을 것
 		// => 만약 조회된 회원이 없다면 list.size() == 0 또는 list.isEmpty() == true
@@ -82,6 +83,12 @@ public class MemberController {
 		// => Dao 메소드를 호출할 때 고려해야 할 것 (매개변수: userId, 리턴값의 타입: Member)
 		// => 아이디 컬럼은 UNIQUE 제약조건에 의해 조회 가능하다면 무조건 1개의 값만 나옴(Arraylist가 아닌 Member로 리턴하는 이유)
 		Member m = new MemberDao().selectByUserId(userId);
+		
+		// 얘랑 똑같은 애다 ^^
+//		Member m = new Member();
+//		MemberDao md = new MemberDao();
+//		m = md.selectByUserId(userId);
+		
 		// 만약 조회된 회원이 없다면 null
 		
 		// 4. 결과에 따른 응답 처리
@@ -133,7 +140,7 @@ public class MemberController {
 		m.setPhone(newPhone);
 		m.setAddress(newAddress);
 		
-		// 2. 전달값을 Dao의 메소드로 넘기기
+		// 2. 전달값을 Dao의 메소드로 넘기기 
 		// 3. 결과 받기
 		int result = new MemberDao().updateMember(m);
 		// sql문 update를 쓸 거니까?
@@ -143,6 +150,9 @@ public class MemberController {
 			new MemberView().displaySuccess("회원 정보 변경 성공");
 		} else { // 수정 실패
 			new MemberView().displayFail("회원 정보 변경 실패");
+//			MemberView mv = new MemberView();
+//			mv.displayFail("message");
+
 		} 
 
 	}
