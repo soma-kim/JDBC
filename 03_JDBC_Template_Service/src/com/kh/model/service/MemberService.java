@@ -120,13 +120,45 @@ public class MemberService {
 		int result = new MemberDao().updateMember(conn, m);
 
 		// 3. 트랜잭션 처리
-		if(result > 0) {
-			
+		if(result > 0) { // 성공
+			JDBCTemplate.commit(conn);
+		} else { // 실패
+			JDBCTemplate.rollback(conn);
 		}
 		
-		// 4. 결과 반환 (Controller한테)
+		// 4. Connection 반납
+		JDBCTemplate.close(conn);
+		
+		// 5. 결과 반환 (Controller한테)
 		return result;
 	
+	}
+	
+	/**
+	 * 회원 탈퇴 요청을 위한 DELETE문을 실행할 수 있도록 Connection 객체를 생성해 주는 메소드
+	 * @param userId: 탈퇴하고자 하는 아이디
+	 * @return: 삭제된 행의 개수
+	 */
+	public int deleteMember(String userId) {
+		
+		// 1. Connection 생성
+		Connection conn = JDBCTemplate.getConnection();
+		
+		// 2. Dao 메소드 호출(conn, keyword)
+		int result = new MemberDao().deleteMember(conn, userId);
+		
+		// 3. 트랜잭션 처리
+		if(result > 0) { // 성공
+			JDBCTemplate.commit(conn);
+		} else { // 실패
+			JDBCTemplate.rollback(conn);
+		}
+		
+		// 4. Connection 반납
+		JDBCTemplate.close(conn);
+		
+		// 5. 결과반환(Controller 한테)
+		return result;
 	}
 
 }

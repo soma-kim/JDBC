@@ -431,7 +431,7 @@ public class MemberDao {
 		// => 이 방법을 쓸 경우에는 메꿀 값을 그냥 제시하면 됨
 		
 		// 해결방법 2) 그냥 통째로 구멍을 뚫는 방법
-		String sql = "SELECT * FROM MEMBER WHERE USER NAME LIKE ?";
+		String sql = "SELECT * FROM MEMBER WHERE USERNAME LIKE ?";
 		// 단, 이 방법을 쓸 경우에는 메꿀 값 양 사이드에 "%" + keyword + "%" 이런식으로 메꿔 줘야 함
 		
 		try {
@@ -588,6 +588,7 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			
+			// 7) 자원 반납
 			JDBCTemplate.close(pstmt);
 		}
 		
@@ -600,11 +601,11 @@ public class MemberDao {
 	 * @param userId: 삭제하고자 하는 아이디값
 	 * @return: 삭제된 행의 개수를 리턴
 	 */
-	public int deleteMember(String userId) {
+	public int deleteMember(Connection conn, String userId) {
 		
 		// 0) 필요한 변수 선언
 		int result = 0; // 처리된 행의 개수를 담을 변수
-		Connection conn = null; // 접속할 DB의 정보를 담는 변수
+		// Connection conn = null; // 접속할 DB의 정보를 담는 변수
 		// Statement stmt = null; // SQL문 (DELETE)을 실행 후 결과를 받을 수 있는 변수
 		PreparedStatement pstmt = null;
 		
@@ -619,10 +620,10 @@ public class MemberDao {
 		
 		try {
 			// 1) JDBC Driver 등록
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			// Class.forName("oracle.jdbc.driver.OracleDriver");
 			
 			// 2) Connection 객체 생성
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
+			// conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
 			
 			// 3_1) PreparedStatement 객체 생성
 			// stmt = conn.createStatement();
@@ -642,20 +643,13 @@ public class MemberDao {
 				conn.rollback(); 
 			}
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			
-			try {
-				// 7) 자원 반납
-				// stmt.close();
-				pstmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			// 7) 자원 반납
+			JDBCTemplate.close(pstmt);
+			
 		}
 		// 8) 결과 반환
 		return result;

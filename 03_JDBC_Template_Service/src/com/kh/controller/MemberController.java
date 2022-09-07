@@ -162,7 +162,7 @@ public class MemberController {
 		// 3. 결과값 받기
 		// => Dao 메소드를 호출할 때 고려해야 할 것(매개변수: userId, 리턴받을 값: Member)
 		
-		int result = new MemberDao().deleteMember(userId);
+		int result = new MemberService().deleteMember(userId);
 		
 		if(result == 0) { // 조회 결과가 없는 경우
 			new MemberView().displayNodata(userId + " 에 해당하는 검색결과가 없습니다.");
