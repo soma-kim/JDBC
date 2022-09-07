@@ -106,7 +106,7 @@ public class MemberDao {
 										+ "'" + m.getAddress() + "'" + ", "
 										+ "'" + m. getHobby() + "'" + ", DEFAULT)";
 		
-		 System.out.println(sql);
+		 System.out.println(sql); // SQL 구문 확인 가능
 		*/
 		
 		// 실행할 SQL문 (미완성된 형태로)=> PreparedStatement 버전
@@ -118,6 +118,10 @@ public class MemberDao {
 		String sql = "INSERT INTO MEMBER "
 				   + "VALUES (SEQ_USERNO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, DEFAULT)";
 		// 구멍의 개수 잘 확인할 것! 11개 중 2개의 컬럼값 빼고 9개의 물음표가 존재해야 함!
+		
+		// PreparedStatement의 유일한 단점
+		// System.out.println(sql); // Statement는 이 시점에서 적용된 SQL 구문 확인 가능하지만 PreparedStatement는 그게 안 됨!
+		//								=> 미완성된 SQL 상태이기 때문
 		
 		try {
 			
