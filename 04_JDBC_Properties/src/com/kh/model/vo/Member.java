@@ -54,9 +54,8 @@ public class Member {
 	}
 	
 	// 회원가입용 생성자
-	public Member(String userId, String userPwd, String userName,
-					String gender, int age, String email,
-					String phone, String address, String hobby) {
+	public Member(String userId, String userPwd, String userName, String gender, int age, String email, String phone,
+			String address, String hobby) {
 		super();
 		this.userId = userId;
 		this.userPwd = userPwd;
@@ -165,5 +164,9 @@ public class Member {
 				+ ", gender=" + gender + ", age=" + age + ", email=" + email + ", phone=" + phone + ", address="
 				+ address + ", hobby=" + hobby + ", enrollDate=" + enrollDate + "]";
 	}
+	
+	
+
+	
 
 }
