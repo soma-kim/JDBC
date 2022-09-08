@@ -1,42 +1,42 @@
--- BOARD Å×ÀÌºí »ý¼º
+-- BOARD í…Œì´ë¸” ìƒì„±
 DROP TABLE BOARD;
 
 CREATE TABLE BOARD(
-    BNO NUMBER PRIMARY KEY, -- °Ô½Ã±Û ³Ñ¹ö(½ÃÄö½º ÀÌ¿ëÇÏ¿© Ã¤¹ø), private int bno;
-    TITLE VARCHAR2(50) NOT NULL, -- °Ô½Ã±Û Á¦¸ñ, private String title;
-    CONTENT VARCHAR2(500) NOT NULL, -- °Ô½Ã±Û ³»¿ë, private String content;
-    CREATE_DATE DATE DEFAULT SYSDATE, -- °Ô½Ã±Û ÀÛ¼º ½Ã°£, private Date createDate;
-    WRITER NUMBER, -- ÀÛ¼ºÀÚ(MEMBERÅ×ÀÌºíÀÇ USERNO·Î ±¸ºÐ), private String writer; -- ¹øÈ£ÀÏ °æ¿ì¿¡µµ "1"·Î °¡Áö°í ¿Ã ¼ö ÀÖÀ½! int·Î ÇÏ¸é ¹®ÀÚ¸¦ ¾Æ¿¹ ¸ø ¹Þ¾Æ ¿È
-    DELETE_YN CHAR(2) DEFAULT 'N', -- °Ô½Ã±Û »èÁ¦ ¿©ºÎ(DELETE ¸»°í UPDATE¸¦ ½á º¸¼¼¿ä, º¹±¸ÀÇ ¿©Áö¸¦ ³²±è), private String deleteYN;
+    BNO NUMBER PRIMARY KEY, -- ê²Œì‹œê¸€ ë„˜ë²„(ì‹œí€€ìŠ¤ ì´ìš©í•˜ì—¬ ì±„ë²ˆ), private int bno;
+    TITLE VARCHAR2(50) NOT NULL, -- ê²Œì‹œê¸€ ì œëª©, private String title;
+    CONTENT VARCHAR2(500) NOT NULL, -- ê²Œì‹œê¸€ ë‚´ìš©, private String content;
+    CREATE_DATE DATE DEFAULT SYSDATE, -- ê²Œì‹œê¸€ ìž‘ì„± ì‹œê°„, private Date createDate;
+    WRITER NUMBER, -- ìž‘ì„±ìž(MEMBERí…Œì´ë¸”ì˜ USERNOë¡œ êµ¬ë¶„), private String writer; -- ë²ˆí˜¸ì¼ ê²½ìš°ì—ë„ "1"ë¡œ ê°€ì§€ê³  ì˜¬ ìˆ˜ ìžˆìŒ! intë¡œ í•˜ë©´ ë¬¸ìžë¥¼ ì•„ì˜ˆ ëª» ë°›ì•„ ì˜´
+    DELETE_YN CHAR(2) DEFAULT 'N', -- ê²Œì‹œê¸€ ì‚­ì œ ì—¬ë¶€(DELETE ë§ê³  UPDATEë¥¼ ì¨ ë³´ì„¸ìš”, ë³µêµ¬ì˜ ì—¬ì§€ë¥¼ ë‚¨ê¹€), private String deleteYN;
     FOREIGN KEY (WRITER) REFERENCES MEMBER(USERNO),
     CHECK(DELETE_YN IN('Y','N'))
 );
 
--- BOARD Å×ÀÌºíÀÇ PK·Î »ç¿ëµÉ ½ÃÄö½º
+-- BOARD í…Œì´ë¸”ì˜ PKë¡œ ì‚¬ìš©ë  ì‹œí€€ìŠ¤
 DROP SEQUENCE SEQ_BOARD;
 
 CREATE SEQUENCE SEQ_BOARD;
 
--- Å×½ºÆ® µ¥ÀÌÅÍ »ðÀÔ
+-- í…ŒìŠ¤íŠ¸ ë°ì´í„° ì‚½ìž…
 INSERT INTO BOARD
-VALUES(SEQ_BOARD.NEXTVAL, '°Ô½ÃÆÇ ¼­ºñ½º¸¦ ½ÃÀÛÇÕ´Ï´Ù^^', '¸¹Àº ÀÌ¿ë ¹Ù¶ø´Ï´Ù~!', '21/01/27', 1, DEFAULT);
--- 1Àº È¸¿ø¹øÈ£¸¦ ¶æÇÔ! Àû¾îµµ ¸â¹ö Å×ÀÌºí¿¡ ¾ø´Â È¸¿ø ¹øÈ£¸¦ ÀÔ·ÂÇÒ °æ¿ì ¹Ù·Î ¿À·ù ³²!
--- MEMBER Å×ÀÌºí¿¡ ÀÖ´Â È¸¿ø¹øÈ£·Î ³Ö¾î¾ß ÇÔ
+VALUES(SEQ_BOARD.NEXTVAL, 'ê²Œì‹œíŒ ì„œë¹„ìŠ¤ë¥¼ ì‹œìž‘í•©ë‹ˆë‹¤^^', 'ë§Žì€ ì´ìš© ë°”ëžë‹ˆë‹¤~!', '21/01/27', 1, DEFAULT);
+-- 1ì€ íšŒì›ë²ˆí˜¸ë¥¼ ëœ»í•¨! ì ì–´ë„ ë©¤ë²„ í…Œì´ë¸”ì— ì—†ëŠ” íšŒì› ë²ˆí˜¸ë¥¼ ìž…ë ¥í•  ê²½ìš° ë°”ë¡œ ì˜¤ë¥˜ ë‚¨!
+-- MEMBER í…Œì´ë¸”ì— ìžˆëŠ” íšŒì›ë²ˆí˜¸ë¡œ ë„£ì–´ì•¼ í•¨
 
 INSERT INTO BOARD
-VALUES(SEQ_BOARD.NEXTVAL, 'JDBC ¾î·Á¿ö¿ä', '»ì·ÁÁÖ¼¼¿ä', '21/09/05', 2, DEFAULT);
+VALUES(SEQ_BOARD.NEXTVAL, 'JDBC ì–´ë ¤ì›Œìš”', 'ì‚´ë ¤ì£¼ì„¸ìš”', '21/09/05', 2, DEFAULT);
 
 INSERT INTO BOARD
-VALUES(SEQ_BOARD.NEXTVAL, '°Ô½Ã±Û2', '°Ô½Ã±Û2 ³»¿ëÀº µµ´ëÃ¼ ¹»±î¿ä', '21/09/05', 2, DEFAULT);
+VALUES(SEQ_BOARD.NEXTVAL, 'ê²Œì‹œê¸€2', 'ê²Œì‹œê¸€2 ë‚´ìš©ì€ ë„ëŒ€ì²´ ë­˜ê¹Œìš”', '21/09/05', 2, DEFAULT);
 
 COMMIT;
 
 
 SELECT * FROM BOARD;
+ 
+-- ê²Œì‹œê¸€ ì“°ê¸° / ê¸€ ì „ì²´ ì¡°íšŒ / ìž‘ì„±ìžì•„ì´ë””ë¡œ ê²€ìƒ‰ / ê²Œì‹œê¸€ ì œëª©ìœ¼ë¡œ ê²€ìƒ‰ / ê²Œì‹œê¸€ ìƒì„¸ ì¡°íšŒ / ê²Œì‹œê¸€ ìˆ˜ì • / ê²Œì‹œê¸€ ì‚­ì œ
 
--- °Ô½Ã±Û ¾²±â / ±Û ÀüÃ¼ Á¶È¸ / ÀÛ¼ºÀÚ¾ÆÀÌµð·Î °Ë»ö / °Ô½Ã±Û Á¦¸ñÀ¸·Î °Ë»ö / °Ô½Ã±Û »ó¼¼ Á¶È¸ / °Ô½Ã±Û ¼öÁ¤ / °Ô½Ã±Û »èÁ¦
-
-SELECT BNO "°Ô½Ã±Û¹øÈ£", TITLE "Á¦¸ñ", CONTENT "³»¿ë", CREATE_DATE "ÀÛ¼ºÀÏ", USERID "ÀÛ¼ºÀÚ ¾ÆÀÌµð"
+SELECT BNO "ê²Œì‹œê¸€ë²ˆí˜¸", TITLE "ì œëª©", CONTENT "ë‚´ìš©", CREATE_DATE "ìž‘ì„±ì¼", USERID "ìž‘ì„±ìž ì•„ì´ë””"
 FROM BOARD, MEMBER
 WHERE WRITER = USERNO;
 
