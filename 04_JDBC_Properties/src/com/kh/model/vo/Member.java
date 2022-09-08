@@ -165,8 +165,4 @@ public class Member {
 				+ address + ", hobby=" + hobby + ", enrollDate=" + enrollDate + "]";
 	}
 	
-	
-
-	
-
 }

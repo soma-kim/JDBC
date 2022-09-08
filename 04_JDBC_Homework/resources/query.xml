@@ -4,9 +4,9 @@
 
 	<comment>SQL</comment>
 	
-	<entry key="insertMember">
-		INSERT INTO MEMBER
-		VALUES (SEQ_USERNO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, DEFAULT)
+	<entry key="writeBoard">
+		INSERT INTO BOARD
+		VALUES (SEQ_BOARD.NEXTVAL, ?, ?, DEFAULT, ?, DEFAULT)
 		</entry>
 	
 	<entry key="selectAll">
