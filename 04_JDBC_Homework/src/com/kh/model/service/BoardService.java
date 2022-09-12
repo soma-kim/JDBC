@@ -34,14 +34,24 @@ public class BoardService {
 	public ArrayList<Board> selectAll() {
 		
 		Connection conn = JDBCTemplate.getConnection();
-		
+				
 		ArrayList<Board> list = dao.selectAll(conn);
+				
+		JDBCTemplate.close(conn);
 		
 		return list;
 	}
 	
 	// 작성자 아이디로 검색 
-	public void selectByUserId() {
+	public ArrayList<Board> selectByUserId(String userId) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = dao.selectByUserId(conn, userId);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
 		
 	}
 	// 게시글 제목으로 검색 

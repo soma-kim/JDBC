@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -57,12 +58,86 @@ public class BoardDao {
 	
 	 // 글 전체 조회
 	 // SELECT * FROM BOARD;
-	public void selectAll(Connection conn) {
+	public ArrayList<Board> selectAll(Connection conn) {
 		ArrayList<Board> list = new ArrayList<>();
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAll");
+				
+		try {
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while (rset.next()) {
+				
+				Board b = new Board();
+				
+				// BNO, TITLE, CONTENT, CREATE_DATE, WRITER,DELETE_YN
+				
+				b.setBno(rset.getInt("BNO"));
+				b.setTitle(rset.getString("TITLE"));
+				b.setContent(rset.getString("CONTENT"));
+				b.setCreateDate(rset.getDate("CREATE_DATE"));
+				b.setWriter(rset.getString("WRITER"));
+				b.setDeleteYN(rset.getString("DELETE_YN"));
+				
+				list.add(b);
+				
+			}
+						
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+			
+		}
+		
+		return list;
+
 	}
 	
 	// 작성자 아이디로 검색 
-	public void selectByUserId() {
+	// SELECT * FROM BOARD WHERE USERID = ?
+	public ArrayList<Board> selectByUserId(Connection conn, String userId) {
+		
+		ArrayList<Board> list = new ArrayList<>();
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectByUserId");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1,  userId);
+			
+			rset = pstmt.executeQuery();
+			 
+			while (rset.next()) {
+				Board b = new Board(); // while문 안에 객체 생성 하지 않고 바깥으로 빼 버리면 생성된 객체가 초기화되지 않아 똑같은 객체 내용만 반복 출력됨
+				
+				b.setBno(rset.getInt("BNO"));
+				b.setTitle(rset.getString("TITLE"));
+				b.setContent(rset.getString("CONTENT"));
+				b.setCreateDate(rset.getDate("CREATE_DATE"));
+				b.setWriter(rset.getString("WRITER"));
+				b.setDeleteYN(rset.getString("DELETE_YN"));
+				
+				list.add(b);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
 		
 	}
 	// 게시글 제목으로 검색 

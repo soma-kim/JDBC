@@ -366,7 +366,6 @@ public class MemberDao {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		
 		// 8) 결과 반환
 		return list; // 회원들의 정보가 담겨 있음!
 					 // 만약 아무도 조회되지 않았다면 list.size() == 0 또는 list.isEmpty() == true 일 것

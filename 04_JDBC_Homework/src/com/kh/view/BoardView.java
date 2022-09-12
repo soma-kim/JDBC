@@ -1,8 +1,10 @@
 package com.kh.view;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.kh.controller.BoardController;
+import com.kh.model.vo.Board;
 
 public class BoardView {
 	
@@ -16,7 +18,6 @@ public class BoardView {
 		System.out.println("***** 아무거나 써도 되는 게시판 *****");
 		
 		// 여기 전체 조회를 해야 됨! 게시판은 원래 들어가자마자 다 보이잖음
-		selectAll();
 		
 	}
 	
@@ -92,12 +93,17 @@ public class BoardView {
 	public void selectAll() {
 		
 		System.out.println("--- 전체 게시글 조회 ---");
-		controller.selectAll();
-		
+		controller.selectAll();		
 	}
 	
 	// 작성자 아이디로 검색 
 	public void selectByUserId() {
+		
+		System.out.println("--- 아이디로 게시글 검색 ---");
+		System.out.print("검색할 아이디 입력: ");
+		String userId = sc.nextLine();
+		
+		controller.selectByUserId(userId);
 		
 	}
 	// 게시글 제목으로 검색 
@@ -120,14 +126,38 @@ public class BoardView {
 		
 	}
 	
-	// 서비스 요청 성공
+	// controller에서 지정된 응답 화면에 대한 메소드
+	
+	// 서비스 요청 성공 메시지
 	public void displaySuccess(String message) {
 		System.out.println("[Service Success] " + message);
 	}
 	
-	// 서비스 요청 성공
+	// 서비스 요청 실패 메시지 
 	public void displayFail(String message) {
 		System.out.println("[Service Fail] " + message);
+	}
+	
+	// 조회된 데이터 없음
+	public void displayNoData(String message) {
+		System.out.println(message);
+		
+	}
+	
+	// 조회된 데이터(리스트) 있음
+	public void displayList(ArrayList<Board> list) {
+		System.out.println("조회된 게시글은 다음과 같습니다.");
+			
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		
+	}
+	
+	// 조회된 데이터(객체) 있음
+	public void displayOne(Board b) {
+		System.out.println("조회된 게시글입니다.");
+		System.out.println(b);
 	}
 
 }

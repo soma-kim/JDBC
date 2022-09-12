@@ -19,15 +19,15 @@ CREATE SEQUENCE SEQ_BOARD;
 
 -- 테스트 데이터 삽입
 INSERT INTO BOARD
-VALUES(SEQ_BOARD.NEXTVAL, '게시판 서비스를 시작합니다^^', '많은 이용 바랍니다~!', '21/01/27', 1, DEFAULT);
+VALUES(SEQ_BOARD.NEXTVAL, '게시판 서비스를 시작합니다^^', '많은 이용 바랍니다~!', TO_DATE('21/01/27', 'YY/MM/DD'), 1, DEFAULT);
 -- 1은 회원번호를 뜻함! 적어도 멤버 테이블에 없는 회원 번호를 입력할 경우 바로 오류 남!
 -- MEMBER 테이블에 있는 회원번호로 넣어야 함
 
 INSERT INTO BOARD
-VALUES(SEQ_BOARD.NEXTVAL, 'JDBC 어려워요', '살려주세요', '21/09/05', 2, DEFAULT);
+VALUES(SEQ_BOARD.NEXTVAL, 'JDBC 어려워요', '살려주세요', TO_DATE('21/09/05', 'YY/MM/DD'), 2, DEFAULT);
 
 INSERT INTO BOARD
-VALUES(SEQ_BOARD.NEXTVAL, '게시글2', '게시글2 내용은 도대체 뭘까요', '21/09/05', 2, DEFAULT);
+VALUES(SEQ_BOARD.NEXTVAL, '게시글2', '게시글2 내용은 도대체 뭘까요', TO_DATE('21/09/05','YY/MM/DD'), 2, DEFAULT);
 
 COMMIT;
 
@@ -39,4 +39,11 @@ SELECT * FROM BOARD;
 SELECT BNO "게시글번호", TITLE "제목", CONTENT "내용", CREATE_DATE "작성일", USERID "작성자 아이디"
 FROM BOARD, MEMBER
 WHERE WRITER = USERNO;
+
+SELECT * FROM BOARD;
+
+SELECT *
+FROM BOARD
+JOIN MEMBER ON (USERNO = WRITER)
+WHERE USERID = 'admin';
 

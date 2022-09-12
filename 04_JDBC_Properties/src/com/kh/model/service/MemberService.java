@@ -52,7 +52,7 @@ public class MemberService {
 		
 		// 1. Connection 객체 생성
 		Connection conn = JDBCTemplate.getConnection();
-		
+				
 		// 2. Dao의 메소드 호출 (conn) => 전달값이 없기 때문에
 		ArrayList<Member> list = new MemberDao().selectAll(conn);
 		

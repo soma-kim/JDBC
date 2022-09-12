@@ -1,6 +1,7 @@
 package com.kh.controller;
 
 import java.util.ArrayList;
+
 import com.kh.model.service.BoardService;
 import com.kh.model.vo.Board;
 import com.kh.view.BoardView;
@@ -32,21 +33,37 @@ public class BoardController {
 	
 	 // 글 전체 조회
 	public void selectAll() {
-		
 		ArrayList<Board> list = service.selectAll();
 		
-		
-		// ArrayList<Member> list = new MemberService().selectAll();
+		// ArrayList<Member>list = new MemberService().selectAll();
 		// ArrayList<Member> list = new ArrayList<>();
 		// MemberService service = new MemberService();
 		// service.selectAll();
+				
+		// 결과에 따른 응답 화면 지정
+		if(list.size() == 0) { // 조회할 게시글 없음
+			new BoardView().displayNoData("조회된 게시글이 없습니다.");
+		} else { // 조회할 게시글 있음
+			new BoardView().displayList(list);
+		}
+		
 		
 	}
 	
 	// 작성자 아이디로 검색 
-	public void selectByUserId() {
+	public void selectByUserId(String userId) {
 		
+		ArrayList<Board> list = service.selectByUserId(userId);
+		
+		if(list.isEmpty()) {
+			new BoardView().displayNoData("조회된 결과가 없습니다.");
+			
+		} else {
+			new BoardView().displayList(list);
+			
+		}
 	}
+	
 	// 게시글 제목으로 검색 
 	public void selectByBoardTitle() {
 		
