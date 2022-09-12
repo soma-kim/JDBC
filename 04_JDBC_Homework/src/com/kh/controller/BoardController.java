@@ -65,7 +65,15 @@ public class BoardController {
 	}
 	
 	// 게시글 제목으로 검색 
-	public void selectByBoardTitle() {
+	public void selectByBoardTitle(String title) {
+		
+		ArrayList<Board> list = service.selectByBoardTitle(title);
+		
+		if(list.isEmpty()) {
+			new BoardView().displayNoData("조회된 결과가 없습니다.");
+		} else {
+			new BoardView().displayList(list);
+		}
 		
 	}
 	

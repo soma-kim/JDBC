@@ -108,6 +108,11 @@ public class BoardView {
 	}
 	// 게시글 제목으로 검색 
 	public void selectByBoardTitle() {
+		System.out.println("--- 게시글 제목으로 검색 ---");
+		System.out.println("검색할 게시글 제목: ");
+		String title = sc.nextLine();
+		
+		controller.selectByBoardTitle(title);
 		
 	}
 	

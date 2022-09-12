@@ -21,10 +21,10 @@
 		WHERE M.USERID = ?
 	</entry>
 	
-	<entry key="selectByUserName">
+	<entry key="selectByBoardTitle">
 		SELECT * 
 		FROM BOARD B
-		JOIN MEMBER M ON (M.USERNO = B.WRITER)
+		JOIN MEMBER M ON (B.WRITER = M.USERNO)
 		WHERE M.USERNAME = ?
 	</entry>
 	

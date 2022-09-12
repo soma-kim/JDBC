@@ -55,7 +55,9 @@ public class BoardService {
 		
 	}
 	// 게시글 제목으로 검색 
-	public void selectByBoardTitle() {
+	public void selectByBoardTitle(String title) {
+		
+		Connection conn = JDBCTemplate.getConnection();
 		
 	}
 	
