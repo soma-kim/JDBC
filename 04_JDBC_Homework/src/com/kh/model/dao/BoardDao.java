@@ -258,7 +258,8 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, b.getBno());
+			pstmt.setString(1, b.getDeleteYN());
+			pstmt.setInt(2, b.getBno());
 			
 			// y를입력받았다면 자료를 삭제하지말고 !! deleteyn만 y로 바꿔서 조회 시에
 			// 노출되지 않게 해 => update

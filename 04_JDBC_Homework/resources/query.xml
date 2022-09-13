@@ -12,37 +12,42 @@
 	<entry key="selectAll">
 		SELECT * 
 		FROM BOARD
+		WHERE DELETE_YN = 'N'
 	</entry>
 	
 	<entry key="selectByUserId">
 		SELECT * 
 		FROM BOARD B
 		JOIN MEMBER M ON (B.WRITER = M.USERNO)
-		WHERE M.USERID = ?
+		WHERE DELETE_YN = 'N'
+		AND M.USERID = ?
 	</entry>
 	
 	<entry key="selectByBoardTitle">
 		SELECT * 
 		FROM BOARD
-		WHERE TITLE LIKE '%' || ? || '%'
+		WHERE DELETE_YN = 'N'
+		AND TITLE LIKE '%' || ? || '%'
 	</entry>
 	
 	<entry key="selectByBoardNo">
 		SELECT * 
 		FROM BOARD
-		WHERE BNO = ?
+		WHERE DELETE_YN = 'N'
+		AND BNO = ?
 	</entry>
 	
 	<entry key="updateBoard">
 		UPDATE BOARD
 		SET TITLE = ?
 		, CONTENT = ?
-		WHERE BNO = ?
+		WHERE DELETE_YN = 'N'
+		AND BNO = ?
 	</entry>
 	
-	<entry key="deleteMember">
+	<entry key="deleteBoard">
 		UPDATE BOARD
-		SET DELETE_YN = 'Y'
+		SET DELETE_YN = ?
 		WHERE BNO = ?
 	</entry>
 	
