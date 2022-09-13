@@ -109,7 +109,7 @@ public class BoardView {
 	// 게시글 제목으로 검색 
 	public void selectByBoardTitle() {
 		System.out.println("--- 게시글 제목으로 검색 ---");
-		System.out.println("검색할 게시글 제목: ");
+		System.out.print("검색할 게시글 제목: ");
 		String title = sc.nextLine();
 		
 		controller.selectByBoardTitle(title);
@@ -118,16 +118,59 @@ public class BoardView {
 	
 	// 게시글 상세 보기
 	public void selectByBoardNo() {
+		System.out.println("--- 게시글 번호로 검색 ---");
+		System.out.print("검색할 게시글 번호: ");
+		int bNo = sc.nextInt();
+		sc.nextLine();
+		
+		controller.selectByBoardNo(bNo);
 		
 	}
 	
 	// 게시글 수정 
 	public void updateBoard() {
+		System.out.println("--- 게시글 수정 ---");
+		System.out.print("수정할 기존 게시글 번호: ");
+		int bNo = sc.nextInt();
+		sc.nextLine();
+		System.out.print("수정할 New 게시글 제목: ");
+		String newTitle = sc.nextLine();
+		System.out.print("수정할 New 게시글 내용: ");
+		String newContent = sc.nextLine();
+		
+		controller.updateBoard(bNo, newTitle, newContent);
 		
 	}
 	
 	// 게시글 삭제
 	public void deleteBoard() {
+		System.out.println("--- 게시글 삭제 ---");
+		System.out.print("삭제할 게시글 번호: ");
+		int bNo = sc.nextInt();
+		sc.nextLine();
+		
+		char YN = ' ';
+		
+		while(true) {
+		System.out.print(bNo + "번 게시글이 삭제됩니다. 정말 삭제하시겠습니까? (Y/N): ");
+		YN = sc.nextLine().toUpperCase().charAt(0);
+		
+			if (YN == 'N') {
+				System.out.println("게시글 삭제를 종료합니다.");
+				mainMenu();
+				return;
+				
+			}
+			if (YN != 'Y' && YN != 'N') {
+				System.out.println("잘못 입력하셨습니다. Y 또는 N으로만 입력하실 수 있습니다.");
+				continue;
+			}
+		break;
+		}
+		
+		String deleteYN = String.valueOf(YN);
+		
+		controller.deleteBoard(bNo, deleteYN);
 		
 	}
 	
@@ -161,7 +204,7 @@ public class BoardView {
 	
 	// 조회된 데이터(객체) 있음
 	public void displayOne(Board b) {
-		System.out.println("조회된 게시글입니다.");
+		System.out.println("수정된 게시글입니다.");
 		System.out.println(b);
 	}
 

@@ -23,23 +23,27 @@
 	
 	<entry key="selectByBoardTitle">
 		SELECT * 
-		FROM BOARD B
-		JOIN MEMBER M ON (B.WRITER = M.USERNO)
-		WHERE M.USERNAME = ?
+		FROM BOARD
+		WHERE TITLE LIKE '%' || ? || '%'
 	</entry>
 	
-	<entry key="updateMember">
+	<entry key="selectByBoardNo">
+		SELECT * 
+		FROM BOARD
+		WHERE BNO = ?
+	</entry>
+	
+	<entry key="updateBoard">
 		UPDATE BOARD
-		SET USERPWD = ?
-		, EMAIL = ?
-		, PHONE = ?
-		, ADDRESS = ? 
-		WHERE USERID = ?
+		SET TITLE = ?
+		, CONTENT = ?
+		WHERE BNO = ?
 	</entry>
 	
 	<entry key="deleteMember">
-		DELETE 
-		FROM MEMBER WHERE USERID = ?
+		UPDATE BOARD
+		SET DELETE_YN = 'Y'
+		WHERE BNO = ?
 	</entry>
 	
 	</properties>

@@ -55,25 +55,64 @@ public class BoardService {
 		
 	}
 	// 게시글 제목으로 검색 
-	public void selectByBoardTitle(String title) {
+	public ArrayList<Board> selectByBoardTitle(String title) {
 		
 		Connection conn = JDBCTemplate.getConnection();
+		
+		ArrayList<Board> list = dao.selectByBoardTitle(conn, title);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
 		
 	}
 	
 	// 게시글 상세 보기
-	public void selectByBoardNo() {
+	public ArrayList<Board> selectByBoardNo(int bNo) {
+		
+			Connection conn = JDBCTemplate.getConnection();
+			
+			ArrayList<Board> list = dao.selectByBoardNo(conn, bNo);
+			
+			JDBCTemplate.close(conn);
+			
+			return list;
 		
 	}
 	
 	// 게시글 수정 
-	public void updateBoard() {
+	public int updateBoard(Board b) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = dao.updateBoard(conn, b);
+		
+		JDBCTemplate.close(conn);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
 		
 	}
 	
 	// 게시글 삭제
-	public void deleteBoard() {
+	public int deleteBoard(Board b) {
+		Connection conn = JDBCTemplate.getConnection();
 		
+		int result = dao.deleteBoard(conn, b);
+		
+		JDBCTemplate.close(conn);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
 	}
 
 }

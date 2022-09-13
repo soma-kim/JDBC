@@ -78,17 +78,50 @@ public class BoardController {
 	}
 	
 	// 게시글 상세 보기
-	public void selectByBoardNo() {
+	public void selectByBoardNo(int bNo) {
+		ArrayList<Board> list = service.selectByBoardNo(bNo);
+		
+		if(list.isEmpty()) {
+			new BoardView().displayNoData("조회된 결과가 없습니다.");
+		} else {
+			new BoardView().displayList(list);
+		}
 		
 	}
 	
 	// 게시글 수정 
-	public void updateBoard() {
+	public void updateBoard(int bNo, String newTitle, String newContent) {
+		
+		Board b = new Board();
+		b.setBno(bNo);
+		b.setTitle(newTitle);
+		b.setContent(newContent);
+		
+		int result = service.updateBoard(b);
+		
+		if(result > 0) {
+			new BoardView().displaySuccess("게시글이 성공적으로 수정되었습니다.");
+		} else {
+			new BoardView().displayFail("일치하는 게시글 번호가 없습니다.");
+		}
 		
 	}
 	
 	// 게시글 삭제
-	public void deleteBoard() {
+	public void deleteBoard(int bNo, String deleteYN) {
+		Board b = new Board();
+		b.setBno(bNo);
+		b.setDeleteYN(deleteYN);
+		
+		int result = service.deleteBoard(b);
+		
+		if(result > 0) {
+			new BoardView().displaySuccess("게시글이 성공적으로 삭제되었습니다.");
+		} else {
+			new BoardView().displayFail("일치하는 게시글 번호가 없습니다.");
+		}
+		
+		
 		
 	}
 
